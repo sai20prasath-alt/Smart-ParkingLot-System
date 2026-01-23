@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const mongoSanitize = require('mongo-sanitize');
 
 const authMiddleware = require('./middleware/authMiddleware');
 const requestValidator = require('./middleware/requestValidator');
@@ -50,11 +49,6 @@ app.use(express.json({ limit: '10mb' }));
 
 // URL encoded parser
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
-
-// ==================== Data Sanitization ====================
-
-// Prevent NoSQL injection - sanitize data
-app.use(mongoSanitize());
 
 // ==================== Rate Limiting ====================
 
@@ -142,16 +136,6 @@ app.get(`${apiPrefix}/parking/statistics/vehicles`, (req, res, next) =>
 app.get(`${apiPrefix}/parking/statistics/revenue`, (req, res, next) =>
   statsController.getRevenueReport(req, res, next)
 );
-
-// ==================== 404 Not Found Handler ====================
-
-app.use('*', (req, res, next) => {
-  throw new AppError(
-    `Cannot find ${req.originalUrl} on this server`,
-    404,
-    'NOT_FOUND'
-  );
-});
 
 // ==================== Global Error Handling ====================
 
