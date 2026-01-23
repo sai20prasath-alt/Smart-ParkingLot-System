@@ -10,7 +10,7 @@ const logger = createLogger('Server');
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || 'localhost';
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/smart_parking_lot';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 // ==================== Database Connection ====================
 
@@ -24,8 +24,6 @@ const connectDatabase = async () => {
     });
 
     const mongooseOptions = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       maxPoolSize: parseInt(process.env.MONGODB_POOL_SIZE || '10'),
       socketTimeoutMS: parseInt(process.env.MONGODB_SOCKET_TIMEOUT || '30000'),
       connectTimeoutMS: parseInt(process.env.MONGODB_CONNECT_TIMEOUT || '30000'),

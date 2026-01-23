@@ -65,6 +65,10 @@ class ParkingSpotRepository {
    */
   async findAvailableByTypes(spotTypes) {
     try {
+      
+      const spotCount = await ParkingSpot.countDocuments();
+      logger.debug('Checking available spots for types', { spotCount, spotTypes });
+      
       return await ParkingSpot.find({
         spot_type: { $in: spotTypes },
         status: 'AVAILABLE',
@@ -72,6 +76,7 @@ class ParkingSpotRepository {
         .sort({ floor_number: 1, spot_type: 1, spot_number: 1 })
         .exec();
     } catch (error) {
+      console.log('Error finding available spots by types', error, { spotTypes });
       logger.error('Error finding available spots by types', error, { spotTypes });
       throw error;
     }

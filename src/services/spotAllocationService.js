@@ -22,6 +22,8 @@ class SpotAllocationService {
     try {
       // Step 1: Get eligible spot types
       const eligibleTypes = getEligibleSpotTypes(vehicleType);
+      
+      console.log('Eligible spot types:', eligibleTypes);
 
       if (eligibleTypes.length === 0) {
         throw new AppError(
@@ -30,6 +32,8 @@ class SpotAllocationService {
           'INVALID_VEHICLE_TYPE'
         );
       }
+
+      console.log('Eligible spot types:', eligibleTypes);
 
       // Step 2: Get available spots by eligible types
       const availableSpots = await parkingSpotRepository.findAvailableByTypes(

@@ -25,9 +25,6 @@ class ParkingController {
       // Validate request body
       const validatedData = validateEntryRequest(req.body);
 
-      // Optional query parameters
-      const queryParams = validateEntryQueryParams(req.query || {});
-
       // Process entry
       const result = await entryService.processEntry(validatedData);
 
